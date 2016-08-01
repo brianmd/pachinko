@@ -1,0 +1,16 @@
+{
+  "intents": [
+    {
+      "intent": "StartStopwatch"
+    },
+    {
+      "intent": "StopwatchStatus"
+    },
+    {
+      "intent": "StopStopwatch"
+    },
+    {
+      "intent": "ResetStopwatch"
+    }
+  ]
+}
