@@ -13,6 +13,11 @@
 (defn nasa-date [s tz]
   (t/from-time-zone (f/parse nasa-date-formatter (str "2016 " s)) tz))
 
+(defn determine-timezone [country state city]
+  ;; TODO: generalize to get correct timezone (defaults to MST for now)
+  (let [tz-loc "America/Denver"]
+    (t/time-zone-for-id tz-loc)))
+
 (defn- snarf-nasa-page [country state city]
   (let [country (str/join "_" (str/split country #" "))
         state (str/join "_" (str/split state #" "))
@@ -29,20 +34,24 @@
   (let [info (html/select row [:td :> html/text-node])]
     (conj (take 4 (drop 1 info)) (nasa-date (first info) tz))))
 
-(defn process-nasa-page [m]
-  (let [rows (html/select m [:table :tr])
-        tz (t/time-zone-for-id (str "America/" "Denver"))
-        ]
+(defn process-nasa-page [tz m]
+  (let [rows (html/select m [:table :tr])]
     (map (partial parse-row tz) (drop 1 rows))))
 
-(defn find-next-sighting [m date]
-  (let [d (c/to-long date)]
-    (first (filter #(< d (c/to-long (first %))) (process-nasa-page m)))))
+;; (defn find-next-sighting [m date]
+;;   (let [d (c/to-long date)]
+;;     (first (filter #(< d (c/to-long (first %))) (process-nasa-page m)))))
 
-
-
-
+(defn find-next-sighting [country state city]
+  (let [tz (determine-timezone country state city)
+        page (snarf-nasa-page country state city)
+        sightings (process-nasa-page tz page)
+        date (t/to-time-zone (t/now) tz)
+        now-date (c/to-long date)
+        now (c/to-long now-date)]
+    (first (filter #(< now (c/to-long (first %))) sightings))
+    ))
 
 ;; (def parsed (snarf-nasa-page "United States" "New Mexico" "Albuquerque"))
-;; (find-next-sighting parsed (l/local-now))
+;; (find-next-sighting "United States" "New Mexico" "Albuquerque")
 
