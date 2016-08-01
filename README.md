@@ -1,29 +1,34 @@
-# stopwatch
+# pachinko
 
 Fork of https://github.com/blandflakes/echo-stopwatch.
 
+Miscellaneous functions to ask Amazon's Alexa. For example, the first function is for my wife, who enjoys watching the space station fly overhead, so it will tell her when the next sighting will happen.
 
 ## Usage
 
-> You: Alexa, open stopwatch
+> You: Alexa, ask pachinko for next space station sighting
 
-> Alexa: Stopwatch started
+> Alexa: The next space station sighting in Albuquerque, New Mexico will be tomorrow at 8:42 PM.
 
-> You: Alexa, ask stopwatch for status
+> You: Alexa, open pachinko
 
-> Alexa: Your stopwatch has a duration of 30 seconds
+> Alexa: Pachinko started
 
-> You: Alexa, tell stopwatch to stop
+> You: Alexa, ask pachinko for status
 
-> Alexa: Your stopwatch had a duration of 45 seconds
+> Alexa: Your pachinko has a duration of 30 seconds
+
+> You: Alexa, tell pachinko to stop
+
+> Alexa: Your pachinko had a duration of 45 seconds
 
 > You: Alexa, reset my stopwach
 
-> Alexa: No stopwatch is set, but I started a new one
+> Alexa: No pachinko is set, but I started a new one
 
-> You: Alexa, reset my stopwatch
+> You: Alexa, reset my pachinko
 
-> Alexa: Stopwatch restarted. Previous duration was 15 seconds
+> Alexa: Pachinko restarted. Previous duration was 15 seconds
 
 ## Observations
 

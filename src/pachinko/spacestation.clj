@@ -43,6 +43,6 @@
 
 
 
-(def parsed (snarf-nasa-page "United States" "New Mexico" "Albuquerque"))
-(find-next-sighting parsed (l/local-now))
+;; (def parsed (snarf-nasa-page "United States" "New Mexico" "Albuquerque"))
+;; (find-next-sighting parsed (l/local-now))
 
