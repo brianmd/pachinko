@@ -1,16 +1,19 @@
 {
   "intents": [
-    {
-      "intent": "StartStopwatch"
-    },
-    {
-      "intent": "StopwatchStatus"
-    },
-    {
-      "intent": "StopStopwatch"
-    },
-    {
-      "intent": "ResetStopwatch"
-    }
+      {
+          "intent": "NextSpacestation"
+      },
+      {
+          "intent": "StartStopwatch"
+      },
+      {
+          "intent": "StopwatchStatus"
+      },
+      {
+          "intent": "StopStopwatch"
+      },
+      {
+          "intent": "ResetStopwatch"
+      }
   ]
 }

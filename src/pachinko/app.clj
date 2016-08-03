@@ -1,7 +1,9 @@
 (ns pachinko.app
   (:require [echo.core :as echo]
             [echo.response :as response]
-            [simple-time.core :as t]))
+            [pachinko.spacestation :as space]
+            [simple-time.core :as t]
+            ))
 
 ; Map of userId to timestamp
 (def ^:private watches (ref {}))
@@ -98,19 +100,55 @@
                                           "Stopwatch Restarted"
                                           (str "Duration: " (format-duration watch now)))})))
 
+(defn- next-spacestation
+  [sighting]
+  (response/respond {:should-end? true
+                     :speech (response/plaintext-speech
+                              (first sighting))
+                     :card (response/simple-card "Found next sighting" nil)}))
+
+(defn- handle-space-station
+  [request session]
+  (println "\n\nrequest for next space station\n\n")
+  (let [country "United States"
+        state "New Mexico"
+        city "Albuquerque"
+        sighting (space/find-next-sighting country state city)]
+    (next-spacestation sighting))
+  )
+
+
 (defn- launch
   [request session]
-  (let [now (t/utc-now)
-        user-id (get-in session ["user" "userId"])
-        existing-watch (get @watches user-id)]
-    (if existing-watch
-      (watch-status existing-watch now)
-      (do
-       (dosync
-        (alter watches assoc user-id now))
-       (new-watch)))))
+  (println "\n\nLaunching ...\n\n")
+  (handle-space-station request session))
+  ;; (let [now (t/utc-now)
+  ;;       user-id (get-in session ["user" "userId"])
+  ;;       existing-watch (get @watches user-id)]
+  ;;   (if existing-watch
+  ;;     (watch-status existing-watch now)
+  ;;     (do
+  ;;      (dosync
+  ;;       (alter watches assoc user-id now))
+  ;;      (new-watch)))))
+
+
+
+
+
 
 (defmulti handle-intent (fn [request session] (get-in request ["intent" "name"])))
+
+(defmethod handle-intent "NextSpacestation"
+  [request session]
+  (handle-space-station request session))
+  ;; (println "\n\nrequest for next space station\n\n")
+  ;; (let [country "United States"
+  ;;       state "New Mexico"
+  ;;       city "Albuquerque"
+  ;;       sighting (space/find-next-sighting country state city)]
+  ;;   (next-spacestation sighting))
+  ;; )
 
 (defmethod handle-intent "StartStopwatch"
   [request session]
